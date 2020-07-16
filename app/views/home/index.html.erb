@@ -1,4 +1,48 @@
-<button data-reflex="click->Example#test">Test</button>
+<h1>#1</h1>
+
+<p>See console for feedback, it should show connect / beforeReflex / afterreflex</p>
+
+<div data-controller="example" id="morph-this">
+  <p>
+    <button data-action="click->example#triggerMany">Trgger many partial morphs</button>
+    Of course the repetition being doe with setTimeout changes its behaviour :-( So here all morphs work.
+  </p>
+
+  <p>
+    <button data-reflex="click->Example#page_morph">Page Morph</button>
+    Do a standard reflex. After Reflex fires normally
+  </p>
+  <p>
+    <button data-reflex="click->Example#partial_morph">Partial Morph</button>
+    Does a partial morph, that does NOT include the to-be-morphed-element, should to children only, does only sometimes fire afterReflex.
+    Just open the console and click this button many a times.
+  </p>
+  <p>
+    <button data-reflex="click->Example#partial_morph_including_parent">Partial Morph, including parent</button>
+    Including the to be morphed element with the id, makes no difference same behavior
+  </p>
+  <p>
+    <button data-reflex="click->Example#morph_child">Partial Morph with child node</button>
+    If you morph a child node of the controller, then afterReflex fires nicely. But I think this is a red herring, this just has different timings.
+    When I do the very same thing in my app it does not help.
+  </p>
+
+  <p>
+    <button data-reflex="click->Example#partial_morph_with_sleep">Partial Morph</button>
+    Making the reflex action slower makes no difference, here with sleeping one second.
+  </p>
+
+  <p>
+    <button data-action="click->example#childMorphFromStimulus">Partial Morph with child node triggered by stimulus</button>
+    I don's see a difference when triggering the reflex from the simulus controller
+  </p>
+  <p>
+    <button data-action="click->example#delayedPartialMorph">delayed morph</button>
+    Wrapping the stimulus trigger in a setTimeout consisistently makes the afterReflex fire.
+  </p>
+  <div id="a-child">Morph this child</div>
+</div>
+
 
 <% if @stimulus_reflex %>
   <h1>Success! Random: <%= (rand * 100).to_i %></h1>

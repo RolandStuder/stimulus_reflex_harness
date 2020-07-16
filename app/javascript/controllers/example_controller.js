@@ -4,34 +4,41 @@ import ApplicationController from './application_controller'
  * Learn more at: https://docs.stimulusreflex.com
  */
 export default class extends ApplicationController {
-  /* Reflex specific lifecycle methods.
-   * Use methods similar to this example to handle lifecycle concerns for a specific Reflex method.
-   * Using the lifecycle is optional, so feel free to delete these stubs if you don't need them.
-   *
-   * Example:
-   *
-   *   <a href="#" data-reflex="ExampleReflex#example">Example</a>
-   *
-   * Arguments:
-   *
-   *   element - the element that triggered the reflex
-   *             may be different than the Stimulus controller's this.element
-   *
-   *   reflex - the name of the reflex e.g. "ExampleReflex#example"
-   *
-   *   error - error message from the server
-   */
+    connect() {
+        super.connect()
+        console.log("connected");
+    }
 
-  // beforeUpdate(element, reflex) {
-  //  element.innerText = 'Updating...'
-  // }
+    triggerMany() {
+        let count = Number(this.data.get("count"))
+        this.data.set("count", count + 1)
+        setTimeout(() => {
+            this.stimulate("Example#partial_morph")
+            if (count <= 10) {
+                this.triggerMany()
+            }
+        },20)
 
-  // updateSuccess(element, reflex) {
-  //   element.innerText = 'Updated Successfully.'
-  // }
+    }
 
-  // updateError(element, reflex, error) {
-  //   console.error('updateError', error);
-  //   element.innerText = 'Update Failed!'
-  // }
+    childMorphFromStimulus() {
+        console.log("via stimulus controller")
+        this.stimulate("Example#morph_child")
+    }
+
+    delayedPartialMorph() {
+        setTimeout(() => {
+            this.stimulate("Example#delayed_partial_morph")
+        },0)
+
+    }
+
+    beforeReflex(element, reflex) {
+        console.log("--------------------------");
+        console.log("beforeReflex: ", reflex);
+    }
+
+    afterReflex(element, reflex) {
+        console.log("afterReflex: ", reflex);
+    }
 }

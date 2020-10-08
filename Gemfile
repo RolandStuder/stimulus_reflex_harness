@@ -23,3 +23,7 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'standard'
 end
+
+
+gem 'view_component', require: "view_component/engine"
+gem 'view_component_reflex'
